@@ -103,15 +103,23 @@ int main(int argc, char **argv)
     // invoke kernel at host side
     dim3 block (nElem);
     dim3 grid  (1);
-
+    double iStart, iElaps;
+    iStart = seconds();
     sumArraysOnGPU<<<grid, block>>>(d_A, d_B, d_C, nElem);
+    iElaps = seconds() - iStart;
     printf("Execution configure <<<%d, %d>>>\n", grid.x, block.x);
+    printf("sumArraysOnGPU <<<  %d, %d  >>>  Time elapsed %f sec\n", grid.x,
+           block.x, iElaps);
 
     // copy kernel result back to host side
     CHECK(cudaMemcpy(gpuRef, d_C, nBytes, cudaMemcpyDeviceToHost));
-
+    
     // add vector at host side for result checks
+    iStart = seconds();
     sumArraysOnHost(h_A, h_B, hostRef, nElem);
+    iElaps = seconds() - iStart;
+    printf("sumArraysOnHost Time elapsed %f sec\n", iElaps);
+
 
     // check device results
     checkResult(hostRef, gpuRef, nElem);

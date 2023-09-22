@@ -61,10 +61,21 @@ __global__ void sumArraysOnGPU(float *A, float *B, float *C, const int N)
     if (i < N) C[i] = A[i] + B[i];
 }
 
+__global__ void sumArraysOnGPU2elements(float *A, float *B, float *C, const int N)
+{
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    int j = (N-1) - i ;
+
+    if (i < N) C[i] = A[i] + B[i];
+    if (j < N) C[j] = A[j] + B[j];
+}
+
+
 int main(int argc, char **argv)
 {
 
-    int block_x = 512;
+    // int block_x = 512;
+    int block_x = 256;
 
     if (argc > 1) {
         block_x = atoi (argv[1]);
@@ -123,10 +134,12 @@ int main(int argc, char **argv)
     // invoke kernel at host side
     int iLen = block_x; // 512;
     dim3 block (iLen);
-    dim3 grid  ((nElem + block.x - 1) / block.x);
+    // dim3 grid  ((nElem+ block.x - 1) / block.x);
+    dim3 grid  ((nElem/2+ block.x - 1) / block.x);
 
     iStart = seconds();
-    sumArraysOnGPU<<<grid, block>>>(d_A, d_B, d_C, nElem);
+    // sumArraysOnGPU<<<grid, block>>>(d_A, d_B, d_C, nElem);
+    sumArraysOnGPU2elements<<<grid, block>>>(d_A, d_B, d_C, nElem);
     CHECK(cudaDeviceSynchronize());
     iElaps = seconds() - iStart;
     printf("sumArraysOnGPU <<<  %d, %d  >>>  Time elapsed %f sec\n", grid.x,

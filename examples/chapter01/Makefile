@@ -4,7 +4,7 @@ all: ${APPS}
 
 %: %.cu
 #	nvcc -O2 -arch=sm_20 -o $@ $<
-	nvcc -O2  -g -G -o $@ $<
+	nvcc  -g -G -o $@ $<
 
 %: %.c
 	g++ -pthread -g -o $@ $<

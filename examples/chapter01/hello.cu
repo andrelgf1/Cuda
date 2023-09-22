@@ -8,15 +8,18 @@
 
 __global__ void helloFromGPU()
 {
-    printf("Hello World from GPU!\n");
+   if(threadIdx.x == 5)  printf("Hello World from GPU thread %d!\n",threadIdx.x);
 }
 
 int main(int argc, char **argv)
 {
-    printf("Hello World from CPU!\n");
+    const char *msg = "Hello World from CPU!\n";
+    printf("%s\n",msg);
 
     helloFromGPU<<<1, 10>>>();
-    CHECK(cudaDeviceReset());
+    // CHECK(cudaDeviceReset());
+    CHECK(cudaDeviceSynchronize());
+
     return 0;
 }
 
