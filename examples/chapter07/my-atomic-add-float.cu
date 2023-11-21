@@ -69,7 +69,8 @@ int main(int argc, char **argv)
 
     CHECK(cudaMemcpy(&h_sharedFloat, d_sharedFloat, sizeof(float),
                      cudaMemcpyDeviceToHost));
-    printf("4 x 128 increments led to value of %f\n", h_sharedFloat);
+    // printf("4 x 128 increments led to value of %f\n", h_sharedFloat);
+    printf("4 x 128 increments led to value of %u\n", *(unsigned int*) &h_sharedFloat);
 
     return 0;
 }

@@ -195,8 +195,8 @@ int main(int argc, char **argv)
     CHECK(cudaMemGetInfo(&freeMem, &totalMem));
     CHECK(cudaGetDeviceProperties(&deviceProperties, 0));
 
-    size_t N = (freeMem * 0.9 / 2) / sizeof(double);
-    N = 65535;  // trashed GPU with above N value ...
+    size_t N = (freeMem * 0.9 / 8) / sizeof(double);
+    N = 154990080;  // trashed GPU with above N value ...
 
     int threadsPerBlock = 256;
     int blocksPerGrid = (N + threadsPerBlock - 1) / threadsPerBlock;

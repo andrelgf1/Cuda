@@ -52,8 +52,8 @@ int main(int argc, char **argv)
 
     printf("Host single-precision representation of 12.1   = %.20f\n", hostF);
     printf("Host double-precision representation of 12.1   = %.20f\n", hostD);
-    printf("Device single-precision representation of 12.1 = %.20f\n", hostF);
-    printf("Device double-precision representation of 12.1 = %.20f\n", hostD);
+    printf("Device single-precision representation of 12.1 = %.20f\n", h_deviceF);
+    printf("Device double-precision representation of 12.1 = %.20f\n", h_deviceD);
     printf("Device and host single-precision representation equal? %s\n",
            hostF == h_deviceF ? "yes" : "no");
     printf("Device and host double-precision representation equal? %s\n",
