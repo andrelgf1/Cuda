@@ -1,9 +1,14 @@
 CU_APPS=cublas cuda-openacc cufft-multi cufft cusparse rand-kernel \
-        replace-rand-streams replace-rand
+        replace-rand-streams replace-rand cublas_colu cublas_matrix_mul
 C_APPS=simple-data simple-kernels simple-parallel
 
 all: ${C_APPS} ${CU_APPS}
-
+cublas_matrix_mul: cublas_matrix_mul.cu
+#	nvcc -O2 -arch=sm_20 -lcublas -o cublas cublas.cu
+	nvcc -g -G -lcublas -o cublas_matrix_mul cublas_matrix_mul.cu
+cublas_colu: cublas_colu.cu
+#	nvcc -O2 -arch=sm_20 -lcublas -o cublas cublas.cu
+	nvcc -g -G -lcublas -o cublas_colu cublas_colu.cu
 cublas: cublas.cu
 #	nvcc -O2 -arch=sm_20 -lcublas -o cublas cublas.cu
 	nvcc -g -G -lcublas -o cublas cublas.cu
